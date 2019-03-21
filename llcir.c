@@ -15,7 +15,7 @@ typedef struct
     Node *pt;
 }LL;
 
-void insert(LL *l,int ele)
+void insertBeg(LL *l,int ele)   //Same as insertEnd, just don't update l->pt
 {
     Node *temp;
 	Node *p = (Node *)malloc(sizeof(Node));
@@ -24,11 +24,31 @@ void insert(LL *l,int ele)
 	if(l->pt==NULL)
 	{
 		l->pt=p;
+        p->next=p;
 	}
 	else
 	{
         p->next=l->pt->next;
         l->pt->next=p;
+	}
+}
+
+void insertEnd(LL *l,int ele)   //Same as insertBeg, just update l->pt
+{
+    Node *temp;
+	Node *p = (Node *)malloc(sizeof(Node));
+	p->data = ele;
+	p->next = NULL;
+	if(l->pt==NULL)
+	{
+		l->pt=p;
+        p->next=p;
+	}
+	else
+	{
+        p->next=l->pt->next;
+        l->pt->next=p;
+        l->pt = p;          //Points to new node as it is the end of list now
 	}
 }
 
@@ -59,17 +79,23 @@ void insertBefore(LL *l,int ele,int s) //inserts ele before search element s
     }
     else
     {
-        temp = l->pt->next;
         rev = l->pt;
-        while(temp->next!=l->pt)
+        while(rev->next!=l->pt)
         {
-            if(temp->data == s)
+            if(rev->next->data == s)
             {
                 flag = 1;
-                
+                p->next=rev->next;
+                rev->next = p;
+                printf("%d inserted before %d\n",ele,s);
+                break;
             }
+            rev  = rev->next;
+        }    
+        if(flag == 0)
+        {
+            printf("%d Not Found\n",s);
         }
-        
     }
 }
 
@@ -115,17 +141,21 @@ void deleteEnd(LL *l)
 
 void display(LL l)
 {
+    Node* temp;
 	if(l.pt==NULL)
 	{
 		printf("Stack Underflow\n");
 	}
 	else
 	{
-		while(l.pt!=NULL)
+        printf("here %d\n",l.pt->data);
+        temp=l.pt->next;
+		while(temp!=l.pt)
 		{
-			printf("%d ",l.pt->data);
-			l.pt=l.pt->next;
+			printf("%d ",temp->data);
+			temp=temp->next;
 		}
+        printf("%d ",l.pt->data);
         printf("\n");	
 	}	
 }
@@ -134,10 +164,10 @@ int main()
 {
     LL l;
     l.pt=NULL;
-    int op,ele;
+    int op,ele,s;
     do
     {
-        printf("1:InsertBeg Element\n2.InsertEnd Element\n3.Delete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
+        printf("1:Insert at the Beginning Element\n2.Insert at the End Element\n3.Insert Before an Element\nDelete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
         scanf("%d",&op);
         switch(op)
         {
@@ -151,12 +181,17 @@ int main()
                    scanf("%d",&ele);
                    insertEnd(&l,ele);
                    break;
-            case 3: 
-                   deleteBeg(&l);
+            case 3:
+                    printf("Enter Element to be Inserted : ");
+                    scanf("%d",&ele);
+                    printf("Enter Search Element before which %d is to be Inserted : ",ele);
+                    scanf("%d",&s);
+                    insertBefore(&l,ele,s);
+                   /*deleteBeg(&l);
                    break;
             case 4:
                    deleteEnd(&l);
-                   break;
+                   break;*/
             case 5:
                     display(l);
                     break;
