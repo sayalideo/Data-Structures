@@ -2,6 +2,7 @@
 //This is to ensure insert at beg and end does not require traversal of whole list.
 //Thus, insertion at the end and beginning is the same
 // Last Node contains next=first node
+//Assumng that l->pt does not change in insert Before and After functions
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
@@ -62,35 +63,9 @@ void insertBefore(LL *l,int ele,int s) //inserts ele before search element s
 	if(l->pt==NULL)
 	{
 		printf("Search Element %d Not Found\n",s);
-	}/*
-	else if(l->pt->data == s)
-	{
-        temp=l->pt->next;
-        while(temp->next!=l->pt)
-            temp = temp->next;
-        temp->next = p;
-        p->next    = l->pt;
-    }*/
+	}
     else
     {
-        /*rev = l->pt;
-        while(rev->next!=l->pt)
-        {
-            if(rev->next->data == s)
-            {
-                flag = 1;
-                p->next=rev->next;
-                rev->next = p;
-                printf("%d inserted before %d\n",ele,s);
-                break;
-            }
-            rev  = rev->next;
-        }    
-        if(flag == 0)
-        {
-            printf("%d Not Found\n",s);
-        }
-*/
         temp = l->pt;
         do
         {
@@ -110,7 +85,7 @@ void insertBefore(LL *l,int ele,int s) //inserts ele before search element s
     }
 }
 
-void insertAfter(LL *l,int e,int s)
+void insertAfter(LL *l,int e,int s)     //Inserts after element s
 {
     Node *temp;
     int flag = 0; 
@@ -141,43 +116,38 @@ void insertAfter(LL *l,int e,int s)
     }
 }
 
-void deleteBeg(LL *l)
-{
-	if(l->pt==NULL)
-	{
-		printf("Stack Underflow\n");
-	}
-    else if(l->pt->next == NULL)
-    {
-        printf("%d Deleted\n",l->pt->data);
-        l->pt = NULL;
-    }
-	else
-	{
-		printf("%d Deleted\n",l->pt->data);
-        l->pt = l->pt->next;
-	}
-}
-
-void deleteEnd(LL *l)
+void delete(LL *l,int ele)
 {
     Node *temp;
+    int flag=0;
 	if(l->pt==NULL)
 	{
 		printf("Stack Underflow\n");
 	}
-    else if(l->pt->next == NULL)
+    else if((l->pt->next == l->pt)&&(l->pt->data == ele))   //If single node is to be deleted
     {
-        printf("%d Deleted\n",l->pt->data);
         l->pt = NULL;
+        printf("%d Deleted\n",ele);
     }
-	else
+	else    //Deletes all types of elements, even if it is at l->pt
 	{
-        temp = l->pt;
-        while(temp->next->next!=NULL)
-            temp=temp->next;
-		printf("%d Deleted\n",temp->next->data);
-		temp->next = NULL;
+		temp = l->pt;
+        do
+        {
+            if(temp->next->data == ele)
+            {
+                flag = 1;
+                if(temp->next==l->pt)
+                    l->pt = temp;
+                temp->next = temp->next->next;
+                break;
+            }
+            temp = temp->next;
+        } while (temp!=l->pt);
+        if(flag == 0)
+        {
+            printf("Element to be Deleted %d not found\n",ele);
+        }
 	}
 }
 
@@ -190,7 +160,7 @@ void display(LL l)
 	}
 	else
 	{
-        printf("here %d\n",l.pt->data);
+        printf("l->pt %d\n",l.pt->data);
         temp=l.pt->next;
 		while(temp!=l.pt)
 		{
@@ -209,7 +179,7 @@ int main()
     int op,ele,s;
     do
     {
-        printf("1:Insert at the Beginning Element\n2.Insert at the End Element\n3.Insert Before an Element\n4.Insert After an Element\nDelete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
+        printf("1:Insert at the Beginning Element\n2.Insert at the End Element\n3.Insert Before an Element\n4.Insert After an Element\n5.Delete Element\n6.Display\n7.Exit\nEnter Choice : ");
         scanf("%d",&op);
         switch(op)
         {
@@ -237,15 +207,15 @@ int main()
                     scanf("%d",&s);
                     insertAfter(&l,ele,s);
                     break;
-                   /*deleteBeg(&l);
-                   break;
-            case 4:
-                   deleteEnd(&l);
-                   break;*/
             case 5:
-                    display(l);
+                    printf("Enter Element to be Deleted : ");
+                    scanf("%d",&ele);
+                    delete(&l,ele);
                     break;
             case 6:
+                    display(l);
+                    break;
+            case 7:
                     printf("Thank You!\n");
                     exit(0);
             default:
@@ -255,3 +225,177 @@ int main()
     }while(1);
     return 0;
 }
+
+/*sayali@sayali:~/Repositories/Data-Structures$ cc llcir.c
+sayali@sayali:~/Repositories/Data-Structures$ ./a.out
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 1
+Enter Element : 133
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 2
+Enter Element : 566
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 2
+Enter Element : 4
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 3
+Enter Element to be Inserted : 58
+Enter Search Element before which 58 is to be Inserted : 4
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 4
+Enter Element to be Inserted : 78
+Enter Search Element after which 78 is to be Inserted : 4
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+l->pt 4
+78 133 566 58 4 
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 5
+Enter Element to be Deleted : 4
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+l->pt 58
+78 133 566 58 
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 5
+Enter Element to be Deleted : 78
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+l->pt 58
+133 566 58 
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 5
+Enter Element to be Deleted : 566
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+l->pt 58
+133 58 
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 5
+Enter Element to be Deleted : 58
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+l->pt 133
+133 
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 5
+Enter Element to be Deleted : 133
+133 Deleted
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 6
+Stack Underflow
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 8
+Wrong Input -_- ! Please Enter the Correct Option
+1:Insert at the Beginning Element
+2.Insert at the End Element
+3.Insert Before an Element
+4.Insert After an Element
+5.Delete Element
+6.Display
+7.Exit
+Enter Choice : 7
+Thank You!
+sayali@sayali:~/Repositories/Data-Structures$*/
