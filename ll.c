@@ -52,7 +52,7 @@ void deleteBeg(LL *l)
 {
 	if(l->pt==NULL)
 	{
-		printf("Stack Underflow\n");
+		printf("List Empty\n");
 	}
     else if(l->pt->next == NULL)
     {
@@ -71,7 +71,7 @@ void deleteEnd(LL *l)
     Node *temp;
 	if(l->pt==NULL)
 	{
-		printf("Stack Underflow\n");
+		printf("List Empty\n");
 	}
     else if(l->pt->next == NULL)
     {
@@ -92,7 +92,7 @@ void display(LL l)
 {
 	if(l.pt==NULL)
 	{
-		printf("Stack Underflow\n");
+		printf("List Empty\n");
 	}
 	else
 	{
@@ -105,6 +105,43 @@ void display(LL l)
 	}	
 }
 
+void reverse(LL *l)
+{
+    Node *this,*prev,*frwd,*temp;
+    if(l->pt == NULL)
+        printf("List Empty\n");
+    else if(l->pt->next == NULL)
+        printf("List Reversed\n");
+    else
+    {
+        prev = l->pt;
+        this = l->pt->next;
+        frwd = this->next;
+        if(frwd == NULL)
+        {
+            prev->next = NULL;
+            this->next = prev;
+            l->pt = this;
+        }
+        else
+        {
+            prev->next = NULL;
+            while(frwd!=NULL)
+            {
+                this->next = prev;
+                temp=frwd->next;
+                frwd->next = this;
+                prev = this;
+                this = frwd;
+                frwd = temp;
+            }
+            l->pt = this;
+        }
+        printf("List Reversed\n");
+    }
+    
+}
+
 int main()
 {
     LL l;
@@ -112,7 +149,7 @@ int main()
     int op,ele;
     do
     {
-        printf("1:InsertBeg Element\n2.InsertEnd Element\n3.Delete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
+        printf("1:InsertBeg Element\n2.InsertEnd Element\n3.Delete Beg\n4.Delete End\n5.Reverse List\n6.Display\n7.Exit\nEnter Choice : ");
         scanf("%d",&op);
         switch(op)
         {
@@ -133,9 +170,12 @@ int main()
                    deleteEnd(&l);
                    break;
             case 5:
-                    display(l);
+                    reverse(&l);
                     break;
             case 6:
+                    display(l);
+                    break;
+            case 7:
                     printf("Thank You!\n");
                     exit(0);
             default:
@@ -146,126 +186,195 @@ int main()
     return 0;
 }
 /*
-sayali@sayali:~/Desktop/ds$ cc ll.c
-sayali@sayali:~/Desktop/ds$ ./a.out
+sayali@sayali:~/Repositories/Data-Structures$ cc ll.c
+sayali@sayali:~/Repositories/Data-Structures$ ./a.out
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 1
 Enter Element : 12
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 1
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 2
 Enter Element : 13
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 1
-Enter Element : 14
+Enter Element : 11
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+11 12 13 
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 5
-14 13 12 
+List Reversed
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 2
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+13 12 11 
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 1
 Enter Element : 15
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+15 13 12 11 
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 5
-14 13 12 15 
+List Reversed
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 4
-15 Deleted
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+11 12 13 15 
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 4
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 3
+11 Deleted
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 3
 12 Deleted
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+13 15 
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 5
-14 13 
+List Reversed
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 3
-14 Deleted
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 6
+15 13 
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 3
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 4
 13 Deleted
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
-Enter Choice : 3
-Stack Underflow
-1:InsertBeg Element
-2.InsertEnd Element
-3.Delete Beg
-4.Delete End
-5.Display
-6.Exit
-Enter Choice : 4
-Stack Underflow
-1:InsertBeg Element
-2.InsertEnd Element
-3.Delete Beg
-4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 5
-Stack Underflow
+List Reversed
 1:InsertBeg Element
 2.InsertEnd Element
 3.Delete Beg
 4.Delete End
-5.Display
-6.Exit
+5.Reverse List
+6.Display
+7.Exit
 Enter Choice : 6
+15 
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 3
+15 Deleted
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 5
+List Empty
+1:InsertBeg Element
+2.InsertEnd Element
+3.Delete Beg
+4.Delete End
+5.Reverse List
+6.Display
+7.Exit
+Enter Choice : 7
 Thank You!
-sayali@sayali:~/Desktop/ds$*/
+sayali@sayali:~/Repositories/Data-Structures$ */
