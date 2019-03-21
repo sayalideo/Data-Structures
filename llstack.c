@@ -1,4 +1,6 @@
 //6.1 Dynamic Stack
+//Tos is always the newly added Element
+//First inserted element has NULL in its next part 
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
