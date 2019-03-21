@@ -62,24 +62,18 @@ void insertBefore(LL *l,int ele,int s) //inserts ele before search element s
 	if(l->pt==NULL)
 	{
 		printf("Search Element %d Not Found\n",s);
-	}
+	}/*
 	else if(l->pt->data == s)
 	{
-        rev = l->pt;
-        while(rev->next != l->pt)
-        {
-            if(rev->next->data == s)
-                break;
-            else
-            {
-                rev=rev->next;
-            }
-        }
-        p->next = l->pt; 
-    }
+        temp=l->pt->next;
+        while(temp->next!=l->pt)
+            temp = temp->next;
+        temp->next = p;
+        p->next    = l->pt;
+    }*/
     else
     {
-        rev = l->pt;
+        /*rev = l->pt;
         while(rev->next!=l->pt)
         {
             if(rev->next->data == s)
@@ -95,6 +89,54 @@ void insertBefore(LL *l,int ele,int s) //inserts ele before search element s
         if(flag == 0)
         {
             printf("%d Not Found\n",s);
+        }
+*/
+        temp = l->pt;
+        do
+        {
+            if(temp->next->data == s)
+            {
+                flag = 1;
+                p->next=temp->next;
+                temp->next = p;
+                break;
+            }
+            temp = temp->next;
+        } while (temp!=l->pt);
+        if(flag == 0)
+        {
+            printf("Search Element %d not found\n",s);
+        }
+    }
+}
+
+void insertAfter(LL *l,int e,int s)
+{
+    Node *temp;
+    int flag = 0; 
+    Node *p = (Node *)malloc(sizeof(Node));
+    p->data = e;
+    if(l->pt == NULL)
+    {
+        printf("Search Element %d not found\n",s);
+    }
+    else
+    {
+        temp = l->pt;
+        do
+        {
+            if(temp->data == s)
+            {
+                flag = 1;
+                p->next=temp->next;
+                temp->next = p;
+                break;
+            }
+            temp = temp->next;
+        } while (temp!=l->pt);
+        if(flag == 0)
+        {
+            printf("Search Element %d not found\n",s);
         }
     }
 }
@@ -167,7 +209,7 @@ int main()
     int op,ele,s;
     do
     {
-        printf("1:Insert at the Beginning Element\n2.Insert at the End Element\n3.Insert Before an Element\nDelete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
+        printf("1:Insert at the Beginning Element\n2.Insert at the End Element\n3.Insert Before an Element\n4.Insert After an Element\nDelete Beg\n4.Delete End\n5.Display\n6.Exit\nEnter Choice : ");
         scanf("%d",&op);
         switch(op)
         {
@@ -187,6 +229,14 @@ int main()
                     printf("Enter Search Element before which %d is to be Inserted : ",ele);
                     scanf("%d",&s);
                     insertBefore(&l,ele,s);
+                    break;
+            case 4:
+                    printf("Enter Element to be Inserted : ");
+                    scanf("%d",&ele);
+                    printf("Enter Search Element after which %d is to be Inserted : ",ele);
+                    scanf("%d",&s);
+                    insertAfter(&l,ele,s);
+                    break;
                    /*deleteBeg(&l);
                    break;
             case 4:
