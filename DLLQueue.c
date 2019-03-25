@@ -1,4 +1,4 @@
-//6.2 Dynamic Queue
+//8.2 Queue using Doubly Linked List
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
@@ -28,7 +28,25 @@ void enqueue(Q *q,int ele)
 	else
 	{
         q->rear->next=p;
+        p->prev = q->rear;  
         q->rear=p;
+	}
+}
+
+void dequeue(Q *q)
+{
+	if(q->front==NULL)
+	{
+		printf("Queue Empty\n");
+	}
+	else
+	{
+		printf("%d Dequeued\n",q->front->data);
+		q->front       = q->front->next; 
+        if(q->front == NULL)
+            q->rear=NULL;
+        else
+            q->front->prev = NULL;  //This condition is missing in llqueue.c
 	}
 }
 
@@ -36,7 +54,7 @@ void display(Q q)
 {
 	if(q.front==NULL)
 	{
-		printf("Stack Underflow\n");
+		printf("Queue Empty\n");
 	}
 	else
 	{
@@ -48,21 +66,6 @@ void display(Q q)
 	}	
 }
 
-void dequeue(Q *q)
-{
-	if(q->front==NULL)
-	{
-		printf("Stack Underflow\n");
-	}
-	else
-	{
-		printf("%d Popped",q->front->data);
-		q->front=q->front->next;
-        if(q->front == NULL)
-            q->rear=NULL;
-	}
-}
-
 int main()
 {
     Q q;
@@ -71,7 +74,7 @@ int main()
     int op,ele;
     do
     {
-        printf("Enter Choice 1:Enqueue Element\n2.Dequeue Element\n3.Display\n5.Exit :");
+        printf("1:Enqueue Element\n2.Dequeue Element\n3.Display\n5.Exit\nEnter Choice : ");
         scanf("%d",&op);
         switch(op)
         {
@@ -97,3 +100,61 @@ int main()
     return 0;
 }
 
+/* sayali@sayali:~/Repositories/Data-Structures$ cc DLLQueue.c
+sayali@sayali:~/Repositories/Data-Structures$ ./a.out
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :1
+Enter Element : 12
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :1
+Enter Element : 13
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :1
+Enter Element : 14
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :3
+12
+13
+14
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :2
+12 Dequeued
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :2
+13 Dequeued
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :2
+14 Dequeued
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :2
+Queue Empty
+1:Enqueue Element
+2.Dequeue Element
+3.Display
+5.Exit
+Enter Choice :5
+Thank You!sayali@sayali:~/Repositories/Data-Structures$*/
