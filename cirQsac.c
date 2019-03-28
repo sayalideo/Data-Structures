@@ -1,7 +1,7 @@
-//3.1 Circular Queue, front->enqueue, rear->dequeue, simple array, compromising one place
+//3.1 Circular Queue, front->enqueue, rear->dequeue, simple array, compromising one place (0th index at start)
 #include<stdio.h>
 #include<stdlib.h>
-#include<malloc.h>
+
 #define SIZE 5
 int rear=0,front=0;
 
@@ -34,11 +34,11 @@ void dequeue(int a[])
 
 void display(int a[])
 {
-	int i;
+	int i,flag;
 	printf("Elements in the Queue : ");
-	
+	flag = (rear+1)%SIZE;
 	i=front+1;
-	while(i!=(rear+1)%SIZE)
+	while(i!=flag)
 	{
 		printf("%d ",a[i]);
 		i=(i+1)%SIZE;
